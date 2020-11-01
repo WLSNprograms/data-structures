@@ -1,5 +1,3 @@
-import java.util.regex.Pattern
-
 class BigNumber() {
     var isPositive = true
     var length = 0
@@ -26,7 +24,9 @@ class BigNumber() {
             }
 
             tail!!.traverse(false,i-1).prev = node
-            head = tail?.traverse(false,i-1)
+            // TODO: set next node
+            node.next = tail!!.traverse(false,i-1)
+            head = tail?.traverse(false,i)
         }
     }
 
@@ -91,6 +91,91 @@ class BigNumber() {
                         }
                         return 0
                     }
+                }
+            }
+        }
+    }
+
+    fun addNumber(other:BigNumber):BigNumber{
+
+
+        return this
+    }
+
+    fun concatenate(digit:Int){
+        addDigit(digit,false)
+    }
+
+    fun addDigit(digit:Int,toTail:Boolean = true){
+        if(toTail){
+            if(this.tail != null){
+                if (this.head === this.tail) {
+                    if (this.tail?.value == 0) {
+                        if(digit > 0 && digit < 10){
+                            head?.value = digit
+                            tail?.value = digit
+                            length += 1
+                        }
+                    } else {
+                        if (digit >= 0 && digit < 10) {
+                            var newNode = BigNode(digit)
+                            newNode.prev = tail
+                            tail?.next = newNode
+                            tail = newNode
+                            length+=1
+                        }
+                    }
+                } else {
+                    if (digit >= 0 && digit < 10) {
+                        var newNode = BigNode(digit)
+                        newNode.prev = tail
+                        tail?.next = newNode
+                        tail = newNode
+                        length+=1
+                    }
+                }
+            } else {
+                if(digit > 0 && digit < 10){
+                    var newNode = BigNode(digit)
+                    head = newNode
+                    tail = newNode
+                    length+=1
+                }
+            }
+        } else {
+            if(this.head != null) {
+                if (this.head === this.tail) {
+                    if (this.head?.value == 0) {
+                        // Head is equal to tail and value is 0 means this is the first digit to be added
+                        if(digit > 0 && digit < 10){
+                            head?.value = digit
+                            tail?.value = digit
+                            length += 1
+                        }
+                    } else {
+                        if (digit >= 0 && digit < 10) {
+                            var newNode = BigNode(digit)
+                            newNode.next = head
+                            head?.prev = newNode
+                            head = newNode
+                            length+=1
+                        }
+                    }
+                } else {
+                    if (digit >= 0 && digit < 10) {
+                        var newNode = BigNode(digit)
+                        newNode.next = head
+                        head?.prev = newNode
+                        head = newNode
+                        length+=1
+                    }
+                }
+            } else {
+                if(digit > 0 && digit < 10){
+                    var newNode = BigNode(digit)
+                    head = newNode
+                    tail = newNode
+                    length+=1
                 }
             }
         }
