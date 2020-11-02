@@ -97,13 +97,50 @@ class BigNumber() {
     }
 
     fun addNumber(other:BigNumber):BigNumber{
+        // Start at head for both
 
+        // Add both digits together
 
+        // If greater than 9 then you must store the least significant digit and add the higher significant digit
+        // to the next node. i.e. 9 + 9 = 18 -> this node = 8 && add + 1 to next sum
+
+        // Continue until both are null
+
+        var thisCurrent = this.head
+        var otherCurrent = other.head
+
+        var currentSum = 0
+        var carryOver = 0
+
+        // Issue with numbers being different sizes
+        // If they aren't the same sizes then the loop stops when either becomes null
+        while(thisCurrent != null || otherCurrent != null){
+            // I was using += instead of just = for the initial assignment so the previous sum was carrying over
+            currentSum = if (thisCurrent?.value != null) thisCurrent.value else 0
+            currentSum += if (otherCurrent?.value != null) otherCurrent.value else 0
+            currentSum += carryOver
+
+            if(currentSum > 9){
+                thisCurrent?.value = currentSum.toString()[1].toString().toInt()
+                carryOver =currentSum.toString()[0].toString().toInt()
+                if(thisCurrent === this.tail){
+                    addDigit(carryOver,true)
+                }
+            } else {
+                thisCurrent?.value = currentSum
+                carryOver = 0
+            }
+
+            thisCurrent = thisCurrent?.next
+            otherCurrent = otherCurrent?.next
+        }
         return this
     }
 
+    //Only adds digits, not the signs
     fun concatenate(digit:Int){
-        addDigit(digit,false)
+        var numbers = digit.toString().replace("\\^-?0+","").replace("-","")
+        numbers.map{addDigit(it.toString().toInt(),false)}
     }
 
     fun addDigit(digit:Int,toTail:Boolean = true){
