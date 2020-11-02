@@ -109,7 +109,7 @@ class BigNumber() {
         var thisCurrent = this.head
         var otherCurrent = other.head
 
-        var currentSum = 0
+        var currentSum: Int
         var carryOver = 0
 
         // Issue with numbers being different sizes
@@ -127,12 +127,19 @@ class BigNumber() {
                     addDigit(carryOver,true)
                 }
             } else {
-                thisCurrent?.value = currentSum
+                if(thisCurrent == null) {
+                    addDigit(currentSum,true)
+                    thisCurrent?.value = currentSum
+                } else {
+                    thisCurrent?.value = currentSum
+                }
                 carryOver = 0
             }
+            println("this :${thisCurrent} || other : ${otherCurrent}")
 
             thisCurrent = thisCurrent?.next
             otherCurrent = otherCurrent?.next
+            println("this :${thisCurrent} || other : ${otherCurrent}")
         }
         return this
     }
