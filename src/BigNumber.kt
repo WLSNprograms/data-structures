@@ -47,6 +47,16 @@ class BigNumber() {
         return s
     }
 
+    fun getDigit(forward:Boolean, nodesFromStart:Int):Int?{
+        if(forward){
+            return head?.traverse(forward,nodesFromStart)?.value
+        }else {
+            return tail?.traverse(forward,nodesFromStart)?.value
+        }
+
+        return 0
+    }
+
 
     fun compareTo(other:BigNumber):Int{
         // Check if either number is negative
@@ -135,11 +145,9 @@ class BigNumber() {
                 }
                 carryOver = 0
             }
-            println("this :${thisCurrent} || other : ${otherCurrent}")
 
             thisCurrent = thisCurrent?.next
             otherCurrent = otherCurrent?.next
-            println("this :${thisCurrent} || other : ${otherCurrent}")
         }
         return this
     }
